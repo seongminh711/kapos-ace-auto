@@ -39,10 +39,15 @@
       <div class="card">
         <h3>오늘의 빠른 안내</h3>
         <ul class="list">
-          <li>엔진 경고등 / 출력 저하</li>
-          <li>시동 지연 / 떨림</li>
+          <li>경고등(계기판) 점등</li>
+          <li>시동 지연 / 시동불량</li>
+          <li>떨림 / 출력 저하</li>
           <li>브레이크 밀림 / 소음</li>
           <li>에어컨 냄새 / 풍량 약함</li>
+          <li>핸들 떨림 / 쏠림</li>
+          <li>타이어 공기압 경고 / 편마모</li>
+          <li>누유(바닥 오일자국)</li>
+          <li>하체 소음(덜컹/삐걱)</li>
         </ul>
         <p class="tiny muted">※ 실제 진단은 차량 상태에 따라 달라질 수 있어요.</p>
       </div>
@@ -53,55 +58,105 @@
       <p class="muted">아래에서 증상을 고르면 관련 부품/설명으로 이어집니다.</p>
 
       <div class="grid">
-        <button class="tile" onclick="showInfo('엔진 경고등', '점화플러그/코일, 센서류, 흡기/연료 계통 등을 점검합니다.')">
-          엔진 경고등
+        <!-- 경고등(계기판) -->
+        <button class="tile" onclick="showInfo('경고등(계기판) 점등', '엔진체크등 뿐 아니라 타이어 공기압(TPMS), ABS/ESC, 에어백, 배터리(충전), 냉각수 온도 경고 등 원인이 다양합니다. 우선 어떤 경고등인지 확인 → 스캔/전압/센서/퓨즈/배선부터 점검합니다.')">
+          경고등(계기판)
         </button>
-        <button class="tile" onclick="showInfo('시동이 늦음', '배터리, 스타터, 연료 압력, 점화 계통을 순서대로 확인합니다.')">
+
+        <!-- 시동/떨림 -->
+        <button class="tile" onclick="showInfo('시동 지연 / 시동불량', '배터리 전압·단자, 스타터 모터, 연료 압력, 점화(플러그/코일), 크랭크/캠 센서 순으로 확인합니다. 추운 날/장거리 후 등 상황도 같이 체크합니다.')">
           시동 지연
         </button>
-        <button class="tile" onclick="showInfo('브레이크 소음', '패드/디스크 마모, 캘리퍼 작동, 이물질 여부를 점검합니다.')">
+
+        <button class="tile" onclick="showInfo('엔진 떨림 / 출력 저하', '점화(플러그/코일), 흡기 누설, 연료 분사(인젝터), 센서(MAF/O2), 엔진 마운트 등을 점검합니다. 경고등 동반 여부도 중요합니다.')">
+          떨림/출력저하
+        </button>
+
+        <!-- 브레이크 -->
+        <button class="tile" onclick="showInfo('브레이크 소음', '패드/디스크 마모, 캘리퍼 작동, 이물질(돌/먼지), 방청 코팅 잔여, 로터 편마모 여부를 확인합니다. ‘끼익/드드득’ 소리 종류도 힌트가 됩니다.')">
           브레이크 소음
         </button>
-        <button class="tile" onclick="showInfo('에어컨 냄새', '에어컨 필터, 에바포레이터 오염, 배수 라인 막힘 등을 확인합니다.')">
+
+        <button class="tile" onclick="showInfo('브레이크 밀림 / 제동력 저하', '패드/디스크 상태, 브레이크액(수분/누유), 에어 혼입, 진공 부스터, ABS 작동 이상 여부를 점검합니다. 급제동 시 진동/경고등도 같이 확인합니다.')">
+          브레이크 밀림
+        </button>
+
+        <!-- 에어컨 -->
+        <button class="tile" onclick="showInfo('에어컨 냄새', '에어컨 필터, 에바포레이터 오염, 배수 라인 막힘(곰팡이), 송풍 덕트 오염을 확인합니다. ‘비 오는 날/켜자마자’ 냄새면 배수·에바 쪽 가능성이 큽니다.')">
           에어컨 냄새
+        </button>
+
+        <button class="tile" onclick="showInfo('에어컨 풍량 약함', '캐빈필터 막힘, 블로워 모터, 저항(레지스터), 덕트 막힘, 풍문(액추에이터) 동작을 확인합니다. 특정 단에서만 약하면 레지스터 가능성이 있습니다.')">
+          풍량 약함
+        </button>
+
+        <!-- 하체/조향 -->
+        <button class="tile" onclick="showInfo('핸들 떨림(고속)', '휠 밸런스, 타이어 편마모/변형, 얼라인먼트, 허브 베어링, 로워암/타이로드 유격을 점검합니다. 속도 구간(80~120km/h 등)을 알려주면 진단이 빨라집니다.')">
+          핸들 떨림
+        </button>
+
+        <button class="tile" onclick="showInfo('차가 한쪽으로 쏠림', '타이어 공기압 차이, 얼라인먼트(토/캠버), 브레이크 끌림, 하체 부싱/암 유격을 확인합니다. 최근 타이어 교체/충격(턱/포트홀) 이력도 중요합니다.')">
+          쏠림(얼라인)
+        </button>
+
+        <!-- 타이어/누유 -->
+        <button class="tile" onclick="showInfo('타이어 공기압 경고 / 자주 빠짐', 'TPMS 센서 배터리, 밸브/비드 누설, 펑크(못/나사), 휠 크랙 여부를 확인합니다. 공기압 경고등이 ‘깜빡임’인지 ‘고정 점등’인지도 중요합니다.')">
+          공기압 경고
+        </button>
+
+        <button class="tile" onclick="showInfo('누유(바닥에 오일)', '엔진오일/미션오일/파워오일/냉각수 등 종류부터 구분합니다. 색/냄새/점도를 확인하고, 리프트 점검으로 누유 부위(가스켓/호스/씰)를 찾습니다.')">
+          누유/오일자국
+        </button>
+
+        <!-- 소음 -->
+        <button class="tile" onclick="showInfo('하체 소음(덜컹/삐걱)', '스테빌 링크, 로워암 부싱, 쇼크/마운트, 타이로드, 허브 베어링 유격을 확인합니다. 방지턱/회전/가속 시 상황에 따라 원인이 달라집니다.')">
+          하체 소음
+        </button>
+
+        <button class="tile" onclick="showInfo('이상 소음(엔진/배기)', '배기 누설(가스켓/용접부), 촉매/머플러 내부 파손, 벨트/풀리 베어링, 텐셔너 이상 등을 점검합니다. “차가울 때만/가열되면” 여부가 힌트입니다.')">
+          이상 소음
         </button>
       </div>
 
       <div class="info card" id="infoBox">
-        <h4 id="infoTitle">증상을 선택해 주세요</h4>
-        <p id="infoText" class="muted">선택하면 여기서 부품/설명 안내가 뜹니다.</p>
+        <h4 id="infoTitle">증상 선택 결과 안내</h4>
+        <p id="infoText" class="muted">
+          위에서 증상을 클릭하면, <strong>점검 포인트·가능 원인·권장 조치</strong>가 여기에 표시됩니다.
+        </p>
       </div>
     </section>
+
     <section class="section">
-  <h2>정비 진행 방식</h2>
-  <div class="steps">
-    <div class="step"><b>1) 접수</b><span class="muted">증상 확인</span></div>
-    <div class="step"><b>2) 진단</b><span class="muted">스캔/점검</span></div>
-    <div class="step"><b>3) 견적</b><span class="muted">항목/비용 안내</span></div>
-    <div class="step"><b>4) 작업</b><span class="muted">교환/수리</span></div>
-    <div class="step"><b>5) 검수</b><span class="muted">최종 확인</span></div>
-  </div>
-  <p class="muted small">※ 고객이 이해할 수 있도록 “설명”을 먼저 드립니다.</p>
-</section>
-<section id="view3d" class="section">
-  <h2>3D 구조 설명</h2>
-  <p class="muted">
-    선택한 증상/부품에 따라 3D로 위치와 구조를 설명합니다.
-    (현재는 준비 중이며, 곧 업데이트됩니다.)
-  </p>
+      <h2>정비 진행 방식</h2>
+      <div class="steps">
+        <div class="step"><b>1) 접수</b><span class="muted">증상 확인</span></div>
+        <div class="step"><b>2) 진단</b><span class="muted">스캔/점검</span></div>
+        <div class="step"><b>3) 견적</b><span class="muted">항목/비용 안내</span></div>
+        <div class="step"><b>4) 작업</b><span class="muted">교환/수리</span></div>
+        <div class="step"><b>5) 검수</b><span class="muted">최종 확인</span></div>
+      </div>
+      <p class="muted small">※ 고객이 이해할 수 있도록 “설명”을 먼저 드립니다.</p>
+    </section>
 
-  <div class="placeholder3d">
-    <div class="muted">📦 3D 뷰어 영역 (준비중)</div>
-    <div class="muted small">GLB/웹뷰어 또는 이미지 슬라이드로 연결 예정</div>
-  </div>
+    <section id="view3d" class="section">
+      <h2>3D 구조 설명</h2>
+      <p class="muted">
+        선택한 증상/부품에 따라 3D로 위치와 구조를 설명합니다.
+        (현재는 준비 중이며, 곧 업데이트됩니다.)
+      </p>
 
-  <div class="cta-grid" style="margin-top:12px;">
-    <a class="cta" href="#symptom">🔧 증상 다시 선택</a>
-    <a class="cta" href="#parts">🧩 부품 보기</a>
-    <a class="cta" href="#price">💰 가격 안내</a>
-    <a class="cta" href="#reserve">📞 예약/문의</a>
-  </div>
-</section>
+      <div class="placeholder3d">
+        <div class="muted">📦 3D 뷰어 영역 (준비중)</div>
+        <div class="muted small">GLB/웹뷰어 또는 이미지 슬라이드로 연결 예정</div>
+      </div>
+
+      <div class="cta-grid" style="margin-top:12px;">
+        <a class="cta" href="#symptom">🔧 증상 다시 선택</a>
+        <a class="cta" href="#parts">🧩 부품 보기</a>
+        <a class="cta" href="#price">💰 가격 안내</a>
+        <a class="cta" href="#reserve">📞 예약/문의</a>
+      </div>
+    </section>
 
     <section id="parts" class="section">
       <h3>부품 설명 (신뢰용)</h3>
@@ -142,23 +197,22 @@
 
     <section id="reserve" class="section">
       <h3>예약 / 문의</h3>
-     <div class="card">
-  <p class="muted">전화·문자·카톡·지도 연결로 빠르게 안내드립니다.</p>
+      <div class="card">
+        <p class="muted">전화·문자·카톡·지도 연결로 빠르게 안내드립니다.</p>
 
-  <div class="cta-grid">
-    <a class="cta" href="tel:010-0000-0000">📞 전화하기</a>
-    <a class="cta" href="sms:010-0000-0000">💬 문자하기</a>
-    <a class="cta" href="https://open.kakao.com/o/여기에링크"
-       target="_blank" rel="noopener">🟡 카톡 문의</a>
-    <a class="cta" href="https://map.naver.com/"
-       target="_blank" rel="noopener">📍 지도 보기</a>
-  </div>
+        <div class="cta-grid">
+          <a class="cta" href="tel:010-0000-0000">📞 전화하기</a>
+          <a class="cta" href="sms:010-0000-0000">💬 문자하기</a>
+          <a class="cta" href="https://open.kakao.com/o/여기에링크"
+             target="_blank" rel="noopener">🟡 카톡 문의</a>
+          <a class="cta" href="https://map.naver.com/"
+             target="_blank" rel="noopener">📍 지도 보기</a>
+        </div>
 
-  <p class="tiny muted">
-    ※ 작업 중에는 답변이 지연될 수 있습니다. 긴급 시 전화가 가장 빠릅니다.
-  </p>
-</div>
-
+        <p class="tiny muted">
+          ※ 작업 중에는 답변이 지연될 수 있습니다. 긴급 시 전화가 가장 빠릅니다.
+        </p>
+      </div>
     </section>
   </main>
 
