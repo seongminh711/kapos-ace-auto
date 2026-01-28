@@ -114,3 +114,19 @@ document.addEventListener("click", (e) => {
 });
 
 document.addEventListener("DOMContentLoaded", setupPriceSearch);
+function set3D(key) {
+  const mv = document.getElementById("mv");
+  if (!mv) return;
+
+  const map = {
+    starter_click_no_start: "./assets/models/starter_click_no_start.glb",
+    starter_sluggish: "./assets/models/starter_sluggish.glb",
+    starter_normal: "./assets/models/starter_normal.glb",
+  };
+
+  const next = map[key];
+  if (!next) return;
+
+  mv.src = next;
+}
+
