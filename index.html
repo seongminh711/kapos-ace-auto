@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>에이스 자동차 종합</title>
   <link rel="stylesheet" href="style.css" />
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 </head>
 <body>
   <header class="wrap header">
@@ -138,10 +139,27 @@
         (현재는 준비 중이며, 곧 업데이트됩니다.)
       </p>
 
-      <div class="placeholder3d">
-        <div class="muted">📦 3D 뷰어 영역 (준비중)</div>
-        <div class="muted small">GLB/웹뷰어 또는 이미지 슬라이드로 연결 예정</div>
-      </div>
+    <div class="viewer3d">
+  <model-viewer
+    id="mv"
+    src="./assets/models/starter_click_no_start.glb"
+    camera-controls
+    auto-rotate
+    shadow-intensity="1"
+    style="width:100%; height:360px; background:#0b1f3b10; border-radius:16px;">
+  </model-viewer>
+
+  <div class="viewer3d-bar">
+    <button class="mini" type="button" onclick="set3D('starter_click_no_start')">딸깍만</button>
+    <button class="mini" type="button" onclick="set3D('starter_sluggish')">버벅</button>
+    <button class="mini primary" type="button" onclick="set3D('starter_normal')">정상</button>
+  </div>
+
+  <p class="tiny muted" style="margin-top:10px;">
+    ※ 모델 로딩이 느리면 파일 용량(GLB)을 줄이거나, Wi-Fi에서 확인해보세요.
+  </p>
+</div>
+
 
       <div class="cta-grid" style="margin-top:12px;">
         <a class="cta" href="#symptom">🔧 증상 다시 선택</a>
