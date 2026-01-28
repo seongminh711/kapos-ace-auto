@@ -40,14 +40,24 @@ function set3D(key) {
   const mv = document.getElementById("mv");
   if (!mv) return;
 
-  // ✅ 지금 리포지토리에 있는 파일 기준
-  // - starter_click_no_start.glb 는 존재 확인됨
-  // - 나머지 2개는 아직 없으니 "임시로 같은 파일"로 돌려둠 (파일 올리면 아래만 바꾸면 됨)
   const map = {
     starter_click_no_start: "./assets/models/starter_click_no_start.glb",
     starter_sluggish: "./assets/models/starter_click_no_start.glb",
     starter_normal: "./assets/models/starter_click_no_start.glb",
   };
+
+  const src = map[key];
+  if (!src) return;
+
+  // 🔥 핵심: src 리셋 후 다시 지정
+  mv.src = "";
+  requestAnimationFrame(() => {
+    mv.src = src;
+    mv.cameraOrbit = "auto auto auto";
+    mv.fieldOfView = "45deg";
+  });
+}
+
 
   if (!map[key]) return;
   mv.src = map[key];
