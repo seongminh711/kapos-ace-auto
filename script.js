@@ -1,34 +1,61 @@
+// ===============================
+// 증상 안내 박스
+// ===============================
 function showInfo(title, text) {
-  document.getElementById("infoTitle").textContent = title;
-  document.getElementById("infoText").textContent = text;
-  document.getElementById("infoBox").scrollIntoView({ behavior: "smooth", block: "center" });
+  const t = document.getElementById("infoTitle");
+  const p = document.getElementById("infoText");
+  const box = document.getElementById("infoBox");
+  if (!t || !p || !box) return;
+
+  t.textContent = title;
+  p.textContent = text;
+  box.scrollIntoView({ behavior: "smooth", block: "center" });
 }
 
 // ===============================
-// ✅ 문의 버튼 → 구글폼 이동 설정
+// 구글 폼 링크 (예약/문의 공통)
 // ===============================
-const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSdf__223IKg_fh_fp1dadeprO2d1t6IuSOj3DINOXRbDyLIdg/viewform?fbzx=1944460443869204952";
+const FORM_URL =
+  "https://docs.google.com/forms/d/e/1FAIpQLSdf__223IKg_fh_fp1dadeprO2d1t6IuSOj3DINOXRbDyLIdg/viewform?fbzx=1944460443869204952";
 
-/*
-(선택) 구글폼에 '문의 항목' 질문이 있고 entry 키를 알고 있으면 입력하면
-문의 누른 항목명이 폼에 자동 입력됨.
-예: const FORM_ENTRY_KEY = "entry.1234567890";
-*/
-const FORM_ENTRY_KEY = ""; // 모르면 빈칸 그대로
+// (선택) 구글폼 entry 키가 있으면 자동 입력 가능
+const FORM_ENTRY_KEY = ""; // 예: "entry.1234567890"
 
 function openInquiryForm(itemName) {
   let url = FORM_URL;
-
-  if (FORM_ENTRY_KEY) {
-    url += `?${FORM_ENTRY_KEY}=` + encodeURIComponent(itemName);
-  }
-
+  if (FORM_ENTRY_KEY) url += `?${FORM_ENTRY_KEY}=` + encodeURIComponent(itemName);
   window.open(url, "_blank");
 }
 
-// ----------------------------
-// Price cards (horizontal + search)
-// ----------------------------
+// 예약 버튼 링크 동기화
+document.addEventListener("DOMContentLoaded", () => {
+  const reserveBtn = document.getElementById("reserveFormBtn");
+  if (reserveBtn) reserveBtn.href = FORM_URL;
+});
+
+// ===============================
+// 3D 모델 전환
+// ===============================
+function set3D(key) {
+  const mv = document.getElementById("mv");
+  if (!mv) return;
+
+  // ✅ 지금 리포지토리에 있는 파일 기준
+  // - starter_click_no_start.glb 는 존재 확인됨
+  // - 나머지 2개는 아직 없으니 "임시로 같은 파일"로 돌려둠 (파일 올리면 아래만 바꾸면 됨)
+  const map = {
+    starter_click_no_start: "./assets/models/starter_click_no_start.glb",
+    starter_sluggish: "./assets/models/starter_click_no_start.glb",
+    starter_normal: "./assets/models/starter_click_no_start.glb",
+  };
+
+  if (!map[key]) return;
+  mv.src = map[key];
+}
+
+// ===============================
+// Price cards (가로 스와이프 + 검색)
+// ===============================
 const PRICE_ITEMS = [
   { cat: "엔진/점화", name: "점화플러그 교체", range: "₩xx,xxx ~", note: "차종/개수(4기통·6기통)에 따라", link: "#parts" },
   { cat: "엔진/점화", name: "점화코일 교체", range: "₩xx,xxx ~", note: "실화/떨림 동반 시 점검", link: "#symptom" },
@@ -58,7 +85,7 @@ function renderPriceCards(items) {
   if (!row) return;
   row.innerHTML = "";
 
-  items.forEach(it => {
+  items.forEach((it) => {
     const card = document.createElement("div");
     card.className = "price-card";
     card.innerHTML = `
@@ -68,7 +95,6 @@ function renderPriceCards(items) {
       <div class="price-note">${it.note}</div>
       <div class="price-actions">
         <a class="mini" href="${it.link}">상세</a>
-        <!-- ✅ 문의: 구글폼으로 이동 (항목명 전달 가능) -->
         <button class="mini primary inquiry-btn" type="button" data-item="${it.name}">문의</button>
       </div>
     `;
@@ -97,39 +123,18 @@ function setupPriceSearch() {
 
   input.addEventListener("input", () => {
     const q = input.value.trim().toLowerCase();
-    const filtered = PRICE_ITEMS.filter(it =>
+    const filtered = PRICE_ITEMS.filter((it) =>
       (it.cat + " " + it.name + " " + it.note).toLowerCase().includes(q)
     );
     renderPriceCards(filtered);
   });
 }
 
-// ✅ 이벤트 위임: 가격카드는 다시 렌더링되므로 document에서 잡아야 안전함
+// ✅ 가격 “문의” 버튼 이벤트 (렌더링 재생성 대비 이벤트 위임)
 document.addEventListener("click", (e) => {
   const btn = e.target.closest(".inquiry-btn");
   if (!btn) return;
-
-  const itemName = btn.dataset.item || "문의";
-  openInquiryForm(itemName);
+  openInquiryForm(btn.dataset.item || "문의");
 });
 
 document.addEventListener("DOMContentLoaded", setupPriceSearch);
-function set3D(key) {
-  const mv = document.getElementById("mv");
-  if (!mv) return;
-
-  const map = {
-    starter_click_no_start: "./assets/models/starter_click_no_start.glb",
-    starter_sluggish: "./assets/models/starter_sluggish.glb",
-    starter_normal: "./assets/models/starter_normal.glb",
-  };
-
-  if (!map[key]) return;
-  mv.src = map[key];
-}
-const map = {
-  starter_click_no_start: "./assets/models/starter_click_no_start.glb",
-  starter_sluggish: "./assets/models/starter_click_no_start.glb",
-  starter_normal: "./assets/models/starter_click_no_start.glb",
-};
-
