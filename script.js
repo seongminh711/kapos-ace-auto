@@ -41,15 +41,16 @@ function set3D(key) {
   if (!mv) return;
 
   const map = {
+    starter_fail: "./assets/models/StarterMotor_FailureSimulation.glb",
     starter_click_no_start: "./assets/models/starter_click_no_start.glb",
-    starter_sluggish: "./assets/models/starter_click_no_start.glb",
-    starter_normal: "./assets/models/starter_click_no_start.glb",
+    starter_sluggish: "./assets/models/starter_sluggish.glb", // 나중에 업로드
+    starter_normal: "./assets/models/starter_normal.glb",     // 나중에 업로드
   };
 
   const src = map[key];
   if (!src) return;
 
-  // 🔥 핵심: src 리셋 후 다시 지정
+  // 강제 갱신 (캐시/동일파일 갱신 문제 방지)
   mv.src = "";
   requestAnimationFrame(() => {
     mv.src = src;
@@ -57,6 +58,7 @@ function set3D(key) {
     mv.fieldOfView = "45deg";
   });
 }
+
 
 
   if (!map[key]) return;
