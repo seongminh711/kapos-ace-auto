@@ -124,9 +124,12 @@ function set3D(key) {
     starter_normal: "./assets/models/starter_normal.glb",
   };
 
-  const next = map[key];
-  if (!next) return;
-
-  mv.src = next;
+  if (!map[key]) return;
+  mv.src = map[key];
 }
+const map = {
+  starter_click_no_start: "./assets/models/starter_click_no_start.glb",
+  starter_sluggish: "./assets/models/starter_click_no_start.glb",
+  starter_normal: "./assets/models/starter_click_no_start.glb",
+};
 
