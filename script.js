@@ -16,7 +16,7 @@ function showInfo(title, text) {
 // 구글 폼 링크 (예약/문의 공통)
 // ===============================
 const FORM_URL =
-  "https://docs.google.com/forms/d/e/1FAIpQLSdf__223IKg_fh_fp1dadeprO2d1t6IuSOj3DINOXRbDyLIdg/viewform?fbzx=1944460443869204952";
+  "https://docs.google.com/forms/d/e/1FAIpQLSchUfryFIiGHlgDmStM2zRa5iY5WE_IBXKVDv8H_O5cRZrs2w/viewform?usp=publish-editor";
 
 // (선택) 구글폼 entry 키가 있으면 자동 입력 가능
 const FORM_ENTRY_KEY = ""; // 예: "entry.1234567890"
@@ -61,8 +61,29 @@ function set3D(key) {
 
 
 
-  if (!map[key]) return;
-  mv.src = map[key];
+ // ===============================
+// 3D 모델 전환
+// ===============================
+function set3D(key) {
+  const mv = document.getElementById("mv");
+  if (!mv) return;
+
+  const map = {
+    starter_fail: "./assets/models/StarterMotor_FailureSimulation.glb",
+    starter_click_no_start: "./assets/models/starter_click_no_start.glb",
+    starter_sluggish: "./assets/models/starter_sluggish.glb",
+    starter_normal: "./assets/models/starter_normal.glb",
+  };
+
+  const src = map[key];
+  if (!src) return;
+
+  mv.src = "";
+  requestAnimationFrame(() => {
+    mv.src = src;
+    mv.cameraOrbit = "auto auto auto";
+    mv.fieldOfView = "45deg";
+  });
 }
 
 // ===============================
